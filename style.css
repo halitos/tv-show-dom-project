@@ -1,3 +1,20 @@
 #root {
-  color: red;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+
+#card {
+  padding: 20px;
+  background-color: lightblue;
+}
+
+#cardHeader {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: cyan;
+}
+
+#image {
+  width: 100%;
 }
