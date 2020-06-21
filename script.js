@@ -5,43 +5,40 @@ function setup() {
 }
 
 const main = document.getElementById("root");
-const episodeCard = document.querySelector(".card");
-const episodeTitle = document.getElementById("title");
-const episodeImg = document.getElementById("image");
-const episodeSum = document.getElementById("summary");
-const seasonNum = document.getElementById("seriNum");
-const episodeNum = document.getElementById("epNum");
 
-// function makePageForEpisodes(episodeList) {
-//   episodeTitle.textContent = `${episodeList[0].name}`;
-//   seasonNum.textContent = `${episodeList[0].season}`;
-//   episodeNum.textContent = `${episodeList[0].number}`;
-//   episodeImg.setAttribute("src", `${episodeList[0].image.medium}`);
-//   episodeSum.textContent = `${episodeList[0].summary}`;
-// }
+const episodeCard = document.createElement("div");
+episodeCard.id = "card"; // will be the last thing
+
+const cardHead = document.createElement("div");
+cardHead.id = "cardHeader";
+episodeCard.appendChild(cardHead);
+
+const episodeTitle = document.createElement("h3");
+episodeTitle.id = "name";
+cardHead.appendChild(episodeTitle);
+
+const seasonNum = document.createElement("h6");
+seasonNum.id = "seriNum";
+cardHead.appendChild(seasonNum);
+
+const episodeImg = document.createElement("img");
+episodeImg.id = "image";
+episodeCard.appendChild(episodeImg);
+
+const episodeSum = document.createElement("p");
+episodeSum.id = "summary";
+episodeCard.appendChild(episodeSum);
 
 function makePageForEpisodes(episodeList) {
-  episodeList.forEach(function (episode) {
+  episodeList.map(function (episode) {
     episodeTitle.textContent = episode.name;
-    seasonNum.textContent = episode.season;
-    episodeNum.textContent = episode.number;
+    seasonNum.textContent = `S${episode.season
+      .toString()
+      .padStart(2, "0")}  E${episode.number.toString().padStart(2, "0")}`;
     episodeImg.setAttribute("src", episode.image.medium);
     episodeSum.textContent = episode.summary;
+    main.appendChild(episodeCard);
   });
 }
-
-// function createNewList(episodeList) {
-//   return episodeList
-//     .map(function (item) {
-//       return `<div class="episode">
-//     <h1 class="episodeHeader">${
-//       item.name
-//     } - S${item.season.toString().padStart(2, "0")}E${item.number.toString().padStart(2, "0")}</h1>
-//     <img src=${item.image.medium} alt= ${item.name}>
-//     ${item.summary}
-//     </div>`;
-//     })
-//     .join("");
-// }
 
 window.onload = setup;
