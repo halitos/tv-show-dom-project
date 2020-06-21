@@ -4,7 +4,7 @@
   grid-gap: 20px;
 }
 
-#card {
+.card {
   padding: 20px;
   background-color: lightblue;
 }
