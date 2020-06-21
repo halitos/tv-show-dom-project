@@ -19,7 +19,7 @@ function makePageForEpisodes(episodeList) {
     episodeTitle.id = "name";
     cardHead.appendChild(episodeTitle);
 
-    const seasonNum = document.createElement("h6");
+    const seasonNum = document.createElement("h4");
     seasonNum.id = "seriNum";
     cardHead.appendChild(seasonNum);
 
@@ -34,7 +34,7 @@ function makePageForEpisodes(episodeList) {
     episodeTitle.textContent = episode.name;
     seasonNum.textContent = `S${episode.season
       .toString()
-      .padStart(2, "0")}  E${episode.number.toString().padStart(2, "0")}`;
+      .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")}`;
     episodeImg.setAttribute("src", episode.image.medium);
     episodeSum.textContent = episode.summary;
     episodeCard.id = "card" + index;

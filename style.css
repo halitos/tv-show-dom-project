@@ -1,20 +1,56 @@
+body {
+  background-color: #88cde0;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px;
+}
+
 #root {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 20px;
+  grid-template-columns: 1fr;
+  grid-gap: 50px;
+}
+
+header {
+  text-align: center;
+  background-color: #eaf2f5;
+  padding: 2px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  color: #494949;
+  font-family: "Ultra", sans-serif;
+  font-size: 30px;
+  line-height: 36px;
+  text-transform: uppercase;
+  text-shadow: 0 2px white, 0 3px #777;
 }
 
 .card {
   padding: 20px;
-  background-color: lightblue;
+  background-color: #eaf2f5;
+  border-radius: 10px;
+  text-align: center;
+  height: auto;
 }
 
 #cardHeader {
   display: flex;
   justify-content: space-evenly;
-  background-color: cyan;
+  background-color: #d7ddde;
+  border-radius: 10px;
+  margin-bottom: 5px;
 }
 
 #image {
-  width: 100%;
+  width: 90%;
+}
+
+@media (min-width: 780px) {
+  #root {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 960px) {
+  #root {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
