@@ -1,7 +1,7 @@
 body {
   background-color: #88cde0;
   font-family: Arial, Helvetica, sans-serif;
-  padding: 10px;
+  padding: 10px 30px;
 }
 
 #root {
@@ -14,7 +14,7 @@ header {
   text-align: center;
   background-color: #eaf2f5;
   padding: 2px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   border-radius: 10px;
   color: #494949;
   font-family: "Ultra", sans-serif;
@@ -22,26 +22,29 @@ header {
   line-height: 36px;
   text-transform: uppercase;
   text-shadow: 0 2px white, 0 3px #777;
+  border: solid gray;
 }
 
 .card {
-  padding: 20px;
+  padding: 10px 20px;
   background-color: #eaf2f5;
   border-radius: 10px;
-  text-align: center;
-  height: auto;
+}
+.card p {
+  text-align: justify;
 }
 
 #cardHeader {
   display: flex;
   justify-content: space-evenly;
   background-color: #d7ddde;
+  border: solid gray;
   border-radius: 10px;
   margin-bottom: 5px;
 }
 
 #image {
-  width: 90%;
+  width: 100%;
 }
 
 @media (min-width: 780px) {
