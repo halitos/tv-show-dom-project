@@ -47,6 +47,17 @@ function makePageForEpisodes(episodeList) {
     episodeCard.id = "card" + index;
     container.appendChild(episodeCard);
     main.appendChild(container);
+
+    const searchBox = document.querySelector(".search-episodes");
+    searchBox.addEventListener("keypress", function () {
+      if (
+        (searchBox.value.length > 1) &
+        !episode.name.toLowerCase().includes(searchBox.value.toLowerCase()) &
+        !episode.summary.toLowerCase().includes(searchBox.value.toLowerCase())
+      ) {
+        episodeCard.style.display = "none";
+      }
+    });
   });
 }
 

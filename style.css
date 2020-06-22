@@ -1,7 +1,7 @@
 body {
   background-color: #88cde0;
   font-family: Arial, Helvetica, sans-serif;
-  margin: 10px 80px;
+  margin: 5px 20px;
 }
 
 #cardContainer {
@@ -13,12 +13,11 @@ body {
 header {
   text-align: center;
   background-color: #eaf2f5;
-  padding: 2px;
   margin-bottom: 20px;
   border-radius: 10px;
   color: #494949;
   font-family: "Ultra", sans-serif;
-  font-size: 30px;
+  font-size: 24px;
   line-height: 36px;
   text-transform: uppercase;
   text-shadow: 0 2px white, 0 3px #777;
@@ -55,8 +54,11 @@ header {
   #cardContainer {
     grid-template-columns: repeat(2, 1fr);
   }
+  body {
+    margin: 10px 80px;
+  }
 }
-@media (min-width: 960px) {
+@media (min-width: 980px) {
   #cardContainer {
     grid-template-columns: repeat(3, 1fr);
   }
