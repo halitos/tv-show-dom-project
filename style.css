@@ -4,7 +4,7 @@ body {
   margin: 10px 80px;
 }
 
-#root {
+#cardContainer {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 50px;
@@ -14,7 +14,7 @@ header {
   text-align: center;
   background-color: #eaf2f5;
   padding: 2px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border-radius: 10px;
   color: #494949;
   font-family: "Ultra", sans-serif;
@@ -47,13 +47,17 @@ header {
   width: 100%;
 }
 
+#search-episodes {
+  margin-bottom: 20px;
+}
+
 @media (min-width: 780px) {
-  #root {
+  #cardContainer {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (min-width: 960px) {
-  #root {
+  #cardContainer {
     grid-template-columns: repeat(3, 1fr);
   }
 }

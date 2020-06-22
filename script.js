@@ -5,9 +5,16 @@ function setup() {
 }
 
 function makePageForEpisodes(episodeList) {
-  episodeList.map(function (episode, index) {
-    const main = document.getElementById("root");
+  const main = document.getElementById("root");
+  main.innerHTML = `<div id="search-episodes">
+  <span class="search-bar">Search episodes</span>
+  <input type="search" class="search-episodes" placeholder="Search ...">
+  </div>`;
 
+  const container = document.createElement("div");
+  container.id = "cardContainer";
+
+  episodeList.forEach(function (episode, index) {
     const episodeCard = document.createElement("div");
     episodeCard.className = "card";
 
@@ -38,7 +45,8 @@ function makePageForEpisodes(episodeList) {
     episodeImg.setAttribute("src", episode.image.medium);
     episodeSum.textContent = episode.summary;
     episodeCard.id = "card" + index;
-    main.appendChild(episodeCard);
+    container.appendChild(episodeCard);
+    main.appendChild(container);
   });
 }
 
