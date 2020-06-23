@@ -6,10 +6,15 @@ function setup() {
 
 function makePageForEpisodes(episodeList) {
   const main = document.getElementById("root");
+
+  //-----------create HTML for search menu-----------
+
   main.innerHTML = `<div id="search-episodes">
   <span class="search-bar">Search episodes</span>
   <input type="search" class="search-episodes" placeholder="Search ...">
   </div>`;
+
+  // -----------------populate cards-------------
 
   const container = document.createElement("div");
   container.id = "cardContainer";
@@ -48,13 +53,18 @@ function makePageForEpisodes(episodeList) {
     container.appendChild(episodeCard);
     main.appendChild(container);
 
+    //------------Search event-------------
+
     const searchBox = document.querySelector(".search-episodes");
-    searchBox.addEventListener("keypress", function () {
+
+    searchBox.addEventListener("input", function () {
+      const searchBoxValue = searchBox.value.toLowerCase();
       if (
-        (searchBox.value.length > 1) &
-        !episode.name.toLowerCase().includes(searchBox.value.toLowerCase()) &
-        !episode.summary.toLowerCase().includes(searchBox.value.toLowerCase())
+        episode.summary.toLowerCase().indexOf(searchBoxValue) > -1 ||
+        episode.name.toLowerCase().indexOf(searchBoxValue) > -1
       ) {
+        episodeCard.style.display = "";
+      } else {
         episodeCard.style.display = "none";
       }
     });
