@@ -1,4 +1,4 @@
-//You can edit ALL of the code here
+//-----------------setup function-------------------
 function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
@@ -58,7 +58,7 @@ function makePageForEpisodes(episodeList) {
 
   const searchBox = document.querySelector(".search-episodes");
 
-  searchBox.addEventListener("keyup", function () {
+  searchBox.addEventListener("input", function () {
     const searchBoxValue = searchBox.value.toLowerCase();
     const displayNum = document.getElementById("numOfDisplay");
     const cardList = document.querySelectorAll(".card");
