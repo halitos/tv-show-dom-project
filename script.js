@@ -52,43 +52,26 @@ function makePageForEpisodes(episodeList) {
     episodeCard.id = "card" + index;
     container.appendChild(episodeCard);
     main.appendChild(container);
+  });
 
-    //------------Search event-------------
+  //---------------Search event---------------
 
-    const searchBox = document.querySelector(".search-episodes");
+  const searchBox = document.querySelector(".search-episodes");
 
-    searchBox.addEventListener("input", function () {
-      const searchBoxValue = searchBox.value.toLowerCase();
-      const displayNum = document.getElementById("numOfDisplay");
-      const cardList = document.getElementsByClassName("card");
-      if (
-        episode.summary.toLowerCase().indexOf(searchBoxValue) > -1 ||
-        episode.name.toLowerCase().indexOf(searchBoxValue) > -1
-      ) {
-        episodeCard.style.display = "";
-        displayNum.innerText = ` Displaying ${cardList.length}/${episodeList.length} episodes`;
+  searchBox.addEventListener("keyup", function () {
+    const searchBoxValue = searchBox.value.toLowerCase();
+    const displayNum = document.getElementById("numOfDisplay");
+    const cardList = document.querySelectorAll(".card");
+    let newList = [];
+    newList = cardList.forEach(function (card) {
+      if (card.innerText.toLowerCase().indexOf(searchBoxValue) > -1) {
+        card.style.display = "";
       } else {
-        episodeCard.style.display = "none";
+        card.style.display = "none";
       }
+      displayNum.innerText = ` Displaying ${newList.length}/${episodeList.length} episodes`;
     });
   });
 }
-
-// function displayFilteredEpisodes() {
-//   const searchBoxValue = searchBox.value.toLowerCase();
-//   const displayNum = document.getElementById("numOfDisplay");
-//   const filteredList = [];
-//   const filteredList = cardList.map((card) => {
-//     if (
-//       card.summary.toLowerCase().indexOf(searchBoxValue) > -1 ||
-//       card.name.toLowerCase().indexOf(searchBoxValue) > -1
-//     ) {
-//       episodeCard.style.display = "";
-//     } else {
-//       episodeCard.style.display = "none";
-//     }
-//     displayNum.innerText = ` Displaying ${filteredList.length}/${episodeList.length} episodes`;
-//   });
-// }
 
 window.onload = setup;
