@@ -62,15 +62,16 @@ function makePageForEpisodes(episodeList) {
     const searchBoxValue = searchBox.value.toLowerCase();
     const displayNum = document.getElementById("numOfDisplay");
     const cardList = document.querySelectorAll(".card");
-    let newList = [];
-    newList = cardList.forEach(function (card) {
+    let newList = Array.from(cardList);
+    newList.forEach(function (card) {
       if (card.innerText.toLowerCase().indexOf(searchBoxValue) > -1) {
         card.style.display = "";
       } else {
         card.style.display = "none";
       }
-      displayNum.innerText = ` Displaying ${newList.length}/${episodeList.length} episodes`;
     });
+    let filteredList = newList.filter((item) => item.style.display === "");
+    displayNum.innerText = ` Displaying ${filteredList.length}/${episodeList.length} episodes`;
   });
 }
 
