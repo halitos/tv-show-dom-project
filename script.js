@@ -66,16 +66,17 @@ function makePageForEpisodes(episodeList) {
         episode.name.toLowerCase().indexOf(searchBoxValue) > -1
       ) {
         episodeCard.style.display = "";
+        displayNum.innerText = ` Displaying ${cardList.length}/${episodeList.length} episodes`;
       } else {
         episodeCard.style.display = "none";
       }
-      displayNum.innerText = ` Displaying ${cardList.length}/${episodeList.length} episodes`;
     });
   });
 }
 
 // function displayFilteredEpisodes() {
-//   const cardList = document.getElementsByClassName("card");
+//   const searchBoxValue = searchBox.value.toLowerCase();
+//   const displayNum = document.getElementById("numOfDisplay");
 //   const filteredList = [];
 //   const filteredList = cardList.map((card) => {
 //     if (
@@ -86,7 +87,7 @@ function makePageForEpisodes(episodeList) {
 //     } else {
 //       episodeCard.style.display = "none";
 //     }
-//     displayNum.innerText = ` Displaying ${cardList.length}/${episodeList.length} episodes`;
+//     displayNum.innerText = ` Displaying ${filteredList.length}/${episodeList.length} episodes`;
 //   });
 // }
 
