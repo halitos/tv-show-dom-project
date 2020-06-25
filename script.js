@@ -10,9 +10,8 @@ function makePageForEpisodes(episodeList) {
   //-----------create HTML for search menu-----------
 
   main.innerHTML = `<div id="search-episodes">
-  <span class="search-bar">Search episodes</span>
-  <select id="episode-selector"><option></option></select>
-  <input type="search" class="search-episodes" placeholder="Search ...">
+  <select id="episode-selector"><option value="none">See all episodes</option></select>
+  <input type="search" class="search-episodes" placeholder="Search episodes...">
   <span id ="numOfDisplay"></span>
   </div>`;
 
@@ -82,19 +81,34 @@ function makePageForEpisodes(episodeList) {
 
   const selector = document.getElementById("episode-selector");
   episodeList.forEach((episode) => {
-    const option = `<option>${episodeNum.textContent} - ${episode.name} </option>`;
+    const option = `<option>S${episode.season
+      .toString()
+      .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")} - ${
+      episode.name
+    } </option>`;
     selector.innerHTML += option;
   });
 
   selector.addEventListener("change", function (event) {
     const episodeId = event.target.value;
-    console.log(episodeId);
-    episodeList.forEach((episode) => {
-      if (!episode.name.includes(selector.innerText)) {
-        episodeCard.style.display = "none";
-      }
+    const selectedEpisodes = episodeList.filter((episode) => {
+      result = `S0${episode.season}E0${episode.number} - ${episode.name}`;
+      return result === episodeId;
     });
+    makePageForEpisodes(selectedEpisodes);
   });
 }
 
 window.onload = setup;
+
+// selector.addEventListener("change", function (event) {
+//   const episodeId = event.target.value;
+//   console.log(episodeId);
+//   episodeList.forEach((episode) => {
+//     if (episode.innerText.includes(episodeId)) {
+//       episodeCard.style.display = "";
+//     } else {
+//       episodeCard.style.display = "none";
+//     }
+//   });
+// });
