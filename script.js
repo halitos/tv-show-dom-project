@@ -11,16 +11,20 @@ function makePageForEpisodes(episodeList) {
 
   main.innerHTML = `<div id="search-episodes">
   <span class="search-bar">Search episodes</span>
-  <input type="search" class="search-episodes" placeholder="Search ..."><span id ="numOfDisplay"></span>
+  <select id="episode-selector"><option></option></select>
+  <input type="search" class="search-episodes" placeholder="Search ...">
+  <span id ="numOfDisplay"></span>
   </div>`;
 
   // -----------------populate cards-------------
 
   const container = document.createElement("div");
   container.id = "cardContainer";
+  let episodeNum;
+  let episodeCard;
 
   episodeList.forEach(function (episode, index) {
-    const episodeCard = document.createElement("div");
+    episodeCard = document.createElement("div");
     episodeCard.className = "card";
 
     const cardHead = document.createElement("div");
@@ -31,9 +35,9 @@ function makePageForEpisodes(episodeList) {
     episodeTitle.id = "name";
     cardHead.appendChild(episodeTitle);
 
-    const seasonNum = document.createElement("h4");
-    seasonNum.id = "seriNum";
-    cardHead.appendChild(seasonNum);
+    episodeNum = document.createElement("h4");
+    episodeNum.id = "seriNum";
+    cardHead.appendChild(episodeNum);
 
     const episodeImg = document.createElement("img");
     episodeImg.id = "image";
@@ -44,7 +48,7 @@ function makePageForEpisodes(episodeList) {
     episodeCard.appendChild(episodeSum);
 
     episodeTitle.textContent = episode.name;
-    seasonNum.textContent = `S${episode.season
+    episodeNum.textContent = `S${episode.season
       .toString()
       .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")}`;
     episodeImg.setAttribute("src", episode.image.medium);
@@ -72,6 +76,24 @@ function makePageForEpisodes(episodeList) {
     });
     let filteredList = newList.filter((item) => item.style.display === "");
     displayNum.innerText = ` Displaying ${filteredList.length}/${episodeList.length} episodes`;
+  });
+
+  //---------------Select Menu------------------
+
+  const selector = document.getElementById("episode-selector");
+  episodeList.forEach((episode) => {
+    const option = `<option>${episodeNum.textContent} - ${episode.name} </option>`;
+    selector.innerHTML += option;
+  });
+
+  selector.addEventListener("change", function (event) {
+    const episodeId = event.target.value;
+    console.log(episodeId);
+    episodeList.forEach((episode) => {
+      if (!episode.name.includes(selector.innerText)) {
+        episodeCard.style.display = "none";
+      }
+    });
   });
 }
 
