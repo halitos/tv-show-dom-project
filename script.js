@@ -80,6 +80,7 @@ function makePageForEpisodes(episodeList) {
   //---------------Select Menu------------------
 
   const selector = document.getElementById("episode-selector");
+
   episodeList.forEach((episode) => {
     const option = `<option>S${episode.season
       .toString()
@@ -89,26 +90,30 @@ function makePageForEpisodes(episodeList) {
     selector.innerHTML += option;
   });
 
-  selector.addEventListener("change", function (event) {
-    const episodeId = event.target.value;
-    const selectedEpisodes = episodeList.filter((episode) => {
-      result = `S0${episode.season}E0${episode.number} - ${episode.name}`;
-      return result === episodeId;
-    });
-    makePageForEpisodes(selectedEpisodes);
+  selector.addEventListener("change", function () {
+    if (selector.value !== "none") {
+      const selectedEpisodes = episodeList.filter((episode) => {
+        const result = `S0${episode.season}E0${episode.number} - ${episode.name}`;
+        return result === selector.value;
+      });
+      makePageForEpisodes(selectedEpisodes);
+    } else {
+      makePageForEpisodes(episodeList);
+    }
   });
 }
 
 window.onload = setup;
 
-// selector.addEventListener("change", function (event) {
-//   const episodeId = event.target.value;
-//   console.log(episodeId);
-//   episodeList.forEach((episode) => {
-//     if (episode.innerText.includes(episodeId)) {
-//       episodeCard.style.display = "";
+// selector.addEventListener("change", function () {
+//   let episodes = [...container.children];
+//   let selectorVal = selector.value.toLowerCase();
+//   episodes.forEach(function (episode) {
+//     const episodeText = episode.innerText;
+//     if (episodeText.indexOf(selectorVal) > -1) {
+//       episode.style.display = "";
 //     } else {
-//       episodeCard.style.display = "none";
+//       episode.style.display = "none";
 //     }
 //   });
 // });
