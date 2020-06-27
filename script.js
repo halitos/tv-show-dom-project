@@ -1,18 +1,21 @@
-//---------------globals-----------------
-
-const allEpisodes = getAllEpisodes();
-const main = document.getElementById("root");
-
 //-------------setup function------------
-
 function setup() {
   makePageForEpisodes(allEpisodes);
 }
 
+//---------------globals-----------------
+
+const allEpisodes = getAllEpisodes();
+const main = document.getElementById("root");
+const selector = document.getElementById("episode-selector");
+const searchBox = document.querySelector(".search-episodes");
+let container;
+let displayNum;
+
 //---------load page with episode cards---------
 
 function makePageForEpisodes(episodeList) {
-  const container = document.createElement("div");
+  container = document.createElement("div");
   container.id = "cardContainer";
 
   episodeList.forEach(function (episode, index) {
@@ -53,11 +56,9 @@ function makePageForEpisodes(episodeList) {
 
 //---------------Search event---------------
 
-const searchBox = document.querySelector(".search-episodes");
-
 searchBox.addEventListener("input", function () {
   const searchBoxValue = searchBox.value.toLowerCase();
-  const displayNum = document.getElementById("numOfDisplay");
+  displayNum = document.getElementById("numOfDisplay");
   const cardList = document.querySelectorAll(".card");
   let newList = Array.from(cardList);
   newList.forEach(function (card) {
@@ -71,9 +72,7 @@ searchBox.addEventListener("input", function () {
   displayNum.innerText = ` Displaying ${filteredList.length}/${allEpisodes.length} episodes`;
 });
 
-//---------------Select Menu------------------
-
-const selector = document.getElementById("episode-selector");
+//---------Create Select Options--------------
 
 allEpisodes.forEach((episode) => {
   const option = `<option>S${episode.season
@@ -84,35 +83,34 @@ allEpisodes.forEach((episode) => {
   selector.innerHTML += option;
 });
 
+//-------------select event------------------
+
 selector.addEventListener("change", function () {
-  if (selector.value !== "none") {
-    const selectedEpisodes = allEpisodes.filter((episode) => {
-      const result = `S0${episode.season}E0${episode.number} - ${episode.name}`;
-      return result === selector.value;
-    });
-    makePageForEpisodes(selectedEpisodes);
-    console.log(selectedEpisodes);
-  } else {
+  if (selector.value === "none") {
+    container.innerHTML = "";
     makePageForEpisodes(allEpisodes);
+    displayNum.innerText = "";
+  } else {
+    console.log(selector.value);
+    const selectedEpisode = allEpisodes.filter((episode) => {
+      return (
+        `S${episode.season
+          .toString()
+          .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")} - ${
+          episode.name
+        }` === selector.value
+      );
+    });
+    container.innerHTML = "";
+    makePageForEpisodes(selectedEpisode);
+    displayNum.innerText = "";
+    console.log(selectedEpisode);
   }
 });
 
 window.onload = setup;
 
-// selector.addEventListener("change", function () {
-//   let episodes = [...container.children];
-//   let selectorVal = selector.value.toLowerCase();
-//   episodes.forEach(function (episode) {
-//     const episodeText = episode.innerText;
-//     if (episodeText.indexOf(selectorVal) > -1) {
-//       episode.style.display = "";
-//     } else {
-//       episode.style.display = "none";
-//     }
-//   });
-// });
-
-// Ahmad's suggestion ****************
+// ***********Trying Ahmad's suggestion ************
 
 // searchBox.addEventListener("input", function () {
 //   const searchBoxValue = searchBox.value.toLowerCase();
