@@ -3,7 +3,7 @@ function setup() {
   makePageForEpisodes(allEpisodes);
 }
 
-//---------------globals-----------------
+//---------------global variables-----------------
 
 const allEpisodes = getAllEpisodes();
 const main = document.getElementById("root");
@@ -42,10 +42,11 @@ function makePageForEpisodes(episodeList) {
     episodeSum.id = "summary";
     episodeCard.appendChild(episodeSum);
 
-    episodeTitle.textContent = episode.name;
     episodeNum.textContent = `S${episode.season
       .toString()
       .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")}`;
+
+    episodeTitle.textContent = episode.name;
     episodeImg.setAttribute("src", episode.image.medium);
     episodeSum.textContent = episode.summary.replace(/<[^>]*>/g, " ");
     episodeCard.id = "card" + index;
