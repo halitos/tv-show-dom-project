@@ -1,6 +1,7 @@
 //-------------setup function------------
 function setup() {
   makePageForEpisodes(allEpisodes);
+  makeSelector();
 }
 
 //---------------global variables-----------------
@@ -35,7 +36,7 @@ function makePageForEpisodes(episodeList) {
     cardHead.appendChild(episodeNum);
 
     const episodeImg = document.createElement("img");
-    episodeImg.id = "image";
+    episodeImg.id = "image" + index;
     episodeCard.appendChild(episodeImg);
 
     const episodeSum = document.createElement("p");
@@ -75,14 +76,16 @@ searchBox.addEventListener("input", function () {
 
 //---------Create Select Options--------------
 
-allEpisodes.forEach((episode) => {
-  const option = `<option>S${episode.season
-    .toString()
-    .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")} - ${
-    episode.name
-  } </option>`;
-  selector.innerHTML += option;
-});
+function makeSelector() {
+  allEpisodes.forEach((episode) => {
+    const option = `<option>S${episode.season
+      .toString()
+      .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")} - ${
+      episode.name
+    } </option>`;
+    selector.innerHTML += option;
+  });
+}
 
 //-------------select event------------------
 
@@ -92,7 +95,6 @@ selector.addEventListener("change", function () {
     makePageForEpisodes(allEpisodes);
     displayNum.innerText = "";
   } else {
-    console.log(selector.value);
     const selectedEpisode = allEpisodes.filter((episode) => {
       return (
         `S${episode.season
@@ -105,7 +107,6 @@ selector.addEventListener("change", function () {
     container.innerHTML = "";
     makePageForEpisodes(selectedEpisode);
     displayNum.innerText = "";
-    console.log(selectedEpisode);
   }
 });
 
@@ -123,6 +124,17 @@ window.onload = setup;
 //     return card.innerText.toLowerCase().indexOf(searchBoxValue) > -1;
 //   });
 
+//   makePageForEpisodes(filteredList);
+//   displayNum.innerText = ` Displaying ${filteredList.length}/${allEpisodes.length} episodes`;
+// });
+
+// searchBox.addEventListener("input", function () {
+//   const searchBoxValue = searchBox.value.toLowerCase();
+//   displayNum = document.getElementById("numOfDisplay");
+
+//   let filteredList = allEpisodes.filter(function (episode) {
+//     episode.innerText.toLowerCase().indexOf(searchBoxValue) > -1;
+//   });
 //   makePageForEpisodes(filteredList);
 //   displayNum.innerText = ` Displaying ${filteredList.length}/${allEpisodes.length} episodes`;
 // });
