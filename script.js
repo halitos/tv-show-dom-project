@@ -1,23 +1,36 @@
 //-------------setup function------------
+
 function setup() {
-  makePageForEpisodes(allEpisodes);
-  makeSelector();
+  fetch(url1)
+    .then((response) => response.json())
+
+    .then((response) => (allEpisodes = response))
+
+    .then((response) => {
+      makePageForEpisodes(response);
+      console.log(response);
+    })
+
+    .catch((error) => console.log(error));
 }
 
 //---------------global variables-----------------
 
-const allEpisodes = getAllEpisodes();
 const main = document.getElementById("root");
 const selector = document.getElementById("episode-selector");
 const searchBox = document.querySelector(".search-episodes");
+const url1 = "https://api.tvmaze.com/shows/82/episodes";
+const url2 = "https://api.tvmaze.com/shows/527/episodes";
 let container;
 let displayNum;
+let allEpisodes;
 
 //---------load page with episode cards---------
 
 function makePageForEpisodes(episodeList) {
   container = document.createElement("div");
   container.id = "cardContainer";
+  makeSelector();
 
   episodeList.forEach(function (episode, index) {
     const episodeCard = document.createElement("div");
@@ -106,8 +119,8 @@ selector.addEventListener("change", function () {
     });
     container.innerHTML = "";
     makePageForEpisodes(selectedEpisode);
-    displayNum.innerText = "";
   }
+  selector.value = "";
 });
 
 window.onload = setup;
