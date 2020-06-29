@@ -10,6 +10,21 @@ const url2 = "https://api.tvmaze.com/shows/527/episodes";
 const container = document.createElement("div");
 container.id = "cardContainer";
 let allEpisodes;
+const allShows = getAllShows();
+
+//-------sort shows in  alphabetical order------------
+
+allShows.sort((a, b) => {
+  let nameA = a.name.toLowerCase();
+  let nameB = b.name.toLowerCase();
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+  return 0;
+});
 
 //-------------setup function with fetch------------
 
@@ -27,11 +42,12 @@ function setup() {
     .catch((error) => console.log(error));
 }
 
-//---------populate episode cards---------
+//---------Make page & populate episode cards---------
 
 function makePageForEpisodes(episodeList) {
   container.innerHTML = "";
   makeSelector();
+  makeShowSelector();
   displayNum.innerText = ` Displaying ${episodeList.length}/${allEpisodes.length} episodes`;
 
   episodeList.forEach(function (episode, index) {
@@ -95,7 +111,31 @@ function searchForInput(event) {
   displayNum.innerText = ` Displaying ${filteredList.length}/${allEpisodes.length} episodes`;
 }
 
-//---------Create Select Options--------------
+//------------create show select options------------
+
+function makeShowSelector() {
+  allShows.forEach((episode) => {
+    const optionValue = `<option>${episode.name}</option>`;
+    showSelector.innerHTML += optionValue;
+  });
+}
+
+//-------------Episode select event------------------
+
+// const showSelector = document.getElementById("showSelector");
+
+// showSelector.addEventListener("change", function (event) {
+//   const showId = event.target.value;
+//   fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+//     .then((response) => {
+//       return response.json();
+//     })
+//     .then((res) => {
+//       makePageForEpisodes(res);
+//     });
+// });
+
+//---------Create Episode Select Options--------------
 
 function makeSelector() {
   allEpisodes.forEach((episode) => {
@@ -108,7 +148,7 @@ function makeSelector() {
   });
 }
 
-//-------------select event------------------
+//-------------Episode select event------------------
 
 selector.addEventListener("change", selectFromMenu);
 
