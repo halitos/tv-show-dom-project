@@ -26,8 +26,8 @@ allShows.sort((a, b) => {
   return 0;
 });
 console.log(allShows);
-//-------------setup function with fetch------------
 
+//-------------setup function with fetch------------
 function setup() {
   fetch(defaultShow)
     .then((response) => response.json())
@@ -37,9 +37,30 @@ function setup() {
     .then((response) => makePageForEpisodes(response))
 
     .catch((error) => console.log(error));
+
+  makeShowSelector();
+
+  //-------------Show select event------------------
+
+  const showSelector = document.getElementById("showSelector");
+
+  showSelector.addEventListener("change", function (event) {
+    const showId = event.target.value;
+    console.log(showId);
+    fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+      .then((response) => {
+        return response.json();
+      })
+
+      .then((response) => (selectedShow = response))
+
+      .then((response) => makePageForEpisodes(response))
+
+      .catch((error) => console.log(error));
+  });
 }
 
-//------------create show select options------------
+//------------create show select function------------
 
 function makeShowSelector() {
   allShows.forEach((episode) => {
@@ -48,31 +69,10 @@ function makeShowSelector() {
   });
 }
 
-//-------------Show select event------------------
-
-const showSelector = document.getElementById("showSelector");
-
-showSelector.addEventListener("change", function (event) {
-  const showId = event.target.value;
-  console.log(showId);
-  fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
-    .then((response) => {
-      return response.json();
-    })
-
-    .then((response) => (selectedShow = response))
-
-    .then((response) => makePageForEpisodes(response))
-
-    .catch((error) => console.log(error));
-});
-
 //---------Make page & populate episode cards---------
 
 function makePageForEpisodes(episodeList) {
   container.innerHTML = "";
-  makeShowSelector();
-  makeEpisodeSelector();
   displayNum.innerText = ` Displaying ${episodeList.length} episodes`;
 
   episodeList.forEach(function (episode, index) {
@@ -107,6 +107,8 @@ function makePageForEpisodes(episodeList) {
     container.appendChild(episodeCard);
     main.appendChild(container);
   });
+
+  makeEpisodeSelector();
 }
 
 //-----------Episode Num Formatter--------------
@@ -139,7 +141,7 @@ function searchForInput(event) {
 //---------Create Episode Select Options--------------
 
 function makeEpisodeSelector() {
-  allEpisodes.forEach((episode) => {
+  selectedShow.forEach((episode) => {
     const option = `<option>S${episode.season
       .toString()
       .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")} - ${
@@ -156,9 +158,9 @@ selector.addEventListener("change", selectFromMenu);
 function selectFromMenu(event) {
   if (event.target.value === "none") {
     container.innerHTML = "";
-    makePageForEpisodes(allEpisodes);
+    makePageForEpisodes(selectedShow);
   } else {
-    const selectedEpisode = allEpisodes.filter((episode) => {
+    const selectedEpisode = selectedShow.filter((episode) => {
       return (
         `S${episode.season
           .toString()
