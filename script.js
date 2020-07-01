@@ -4,7 +4,7 @@ const main = document.getElementById("root");
 const selector = document.getElementById("episode-selector");
 const searchBox = document.querySelector(".search-episodes");
 const displayNum = document.getElementById("numOfDisplay");
-const defaultShow = "https://api.tvmaze.com/shows/82/episodes";
+const defaultShow = "https://api.tvmaze.com/shows/66/episodes";
 
 const container = document.createElement("div");
 container.id = "cardContainer";
@@ -39,25 +39,6 @@ function setup() {
     .catch((error) => console.log(error));
 
   makeShowSelector();
-
-  //-------------Show select event------------------
-
-  const showSelector = document.getElementById("showSelector");
-
-  showSelector.addEventListener("change", function (event) {
-    const showId = event.target.value;
-    console.log(showId);
-    fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
-      .then((response) => {
-        return response.json();
-      })
-
-      .then((response) => (selectedShow = response))
-
-      .then((response) => makePageForEpisodes(response))
-
-      .catch((error) => console.log(error));
-  });
 }
 
 //------------create show select function------------
@@ -68,6 +49,25 @@ function makeShowSelector() {
     showSelector.innerHTML += optionValue;
   });
 }
+
+//-------------Fetch and display selected show------------------
+
+const showSelector = document.getElementById("showSelector");
+
+showSelector.addEventListener("change", function (event) {
+  const showId = event.target.value;
+  console.log(showId);
+  fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+    .then((response) => {
+      return response.json();
+    })
+
+    .then((response) => (selectedShow = response))
+
+    .then((response) => makePageForEpisodes(response))
+
+    .catch((error) => console.log(error));
+});
 
 //---------Make page & populate episode cards---------
 
@@ -107,17 +107,16 @@ function makePageForEpisodes(episodeList) {
     container.appendChild(episodeCard);
     main.appendChild(container);
   });
-
   makeEpisodeSelector();
 }
 
 //-----------Episode Num Formatter--------------
 
-formatEpisodeNum = function (season, episode) {
+function formatEpisodeNum(season, episode) {
   return `S${season.toString().padStart(2, "0")}E${episode
     .toString()
     .padStart(2, "0")}`;
-};
+}
 
 //---------------Search event---------------
 
