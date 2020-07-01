@@ -12,7 +12,7 @@ container.id = "cardContainer";
 let allEpisodes;
 const allShows = getAllShows();
 
-//-------sort shows in  alphabetical order------------
+//-------sort shows in alphabetical order------------
 
 allShows.sort((a, b) => {
   let nameA = a.name.toLowerCase();
@@ -42,13 +42,36 @@ function setup() {
     .catch((error) => console.log(error));
 }
 
+//------------create show select options------------
+
+function makeShowSelector() {
+  allShows.forEach((episode) => {
+    const optionValue = `<option>${episode.name}</option>`;
+    showSelector.innerHTML += optionValue;
+  });
+}
+
+//-------------Show select event------------------
+
+const showSelector = document.getElementById("showSelector");
+
+showSelector.addEventListener("change", function (event) {
+  const showId = event.target.value;
+  fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      makePageForEpisodes(result);
+    });
+});
 //---------Make page & populate episode cards---------
 
 function makePageForEpisodes(episodeList) {
   container.innerHTML = "";
   makeSelector();
   makeShowSelector();
-  displayNum.innerText = ` Displaying ${episodeList.length}/${allEpisodes.length} episodes`;
+  displayNum.innerText = ` Displaying ${episodeList.length} / ${allEpisodes.length} episodes`;
 
   episodeList.forEach(function (episode, index) {
     const episodeCard = document.createElement("div");
@@ -108,32 +131,8 @@ function searchForInput(event) {
     }
   });
   let filteredList = newList.filter((item) => item.style.display === "");
-  displayNum.innerText = ` Displaying ${filteredList.length}/${allEpisodes.length} episodes`;
+  displayNum.innerText = ` Displaying ${filteredList.length} / ${allEpisodes.length} episodes`;
 }
-
-//------------create show select options------------
-
-function makeShowSelector() {
-  allShows.forEach((episode) => {
-    const optionValue = `<option>${episode.name}</option>`;
-    showSelector.innerHTML += optionValue;
-  });
-}
-
-//-------------Episode select event------------------
-
-// const showSelector = document.getElementById("showSelector");
-
-// showSelector.addEventListener("change", function (event) {
-//   const showId = event.target.value;
-//   fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
-//     .then((response) => {
-//       return response.json();
-//     })
-//     .then((res) => {
-//       makePageForEpisodes(res);
-//     });
-// });
 
 //---------Create Episode Select Options--------------
 
