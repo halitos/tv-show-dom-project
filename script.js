@@ -4,13 +4,13 @@ const main = document.getElementById("root");
 const selector = document.getElementById("episode-selector");
 const searchBox = document.querySelector(".search-episodes");
 const displayNum = document.getElementById("numOfDisplay");
-const url1 = "https://api.tvmaze.com/shows/82/episodes";
-const url2 = "https://api.tvmaze.com/shows/527/episodes";
+const defaultShow = "https://api.tvmaze.com/shows/82/episodes";
 
 const container = document.createElement("div");
 container.id = "cardContainer";
-let allEpisodes;
 const allShows = getAllShows();
+let allEpisodes;
+let selectedShow;
 
 //-------sort shows in alphabetical order------------
 
@@ -25,19 +25,16 @@ allShows.sort((a, b) => {
   }
   return 0;
 });
-
+console.log(allShows);
 //-------------setup function with fetch------------
 
 function setup() {
-  fetch(url2)
+  fetch(defaultShow)
     .then((response) => response.json())
 
     .then((response) => (allEpisodes = response))
 
-    .then((response) => {
-      makePageForEpisodes(response);
-      console.log(response);
-    })
+    .then((response) => makePageForEpisodes(response))
 
     .catch((error) => console.log(error));
 }
@@ -46,7 +43,7 @@ function setup() {
 
 function makeShowSelector() {
   allShows.forEach((episode) => {
-    const optionValue = `<option>${episode.name}</option>`;
+    const optionValue = `<option value="${episode.id}">${episode.name}</option>`;
     showSelector.innerHTML += optionValue;
   });
 }
@@ -57,21 +54,26 @@ const showSelector = document.getElementById("showSelector");
 
 showSelector.addEventListener("change", function (event) {
   const showId = event.target.value;
+  console.log(showId);
   fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
     .then((response) => {
       return response.json();
     })
-    .then((result) => {
-      makePageForEpisodes(result);
-    });
+
+    .then((response) => (selectedShow = response))
+
+    .then((response) => makePageForEpisodes(response))
+
+    .catch((error) => console.log(error));
 });
+
 //---------Make page & populate episode cards---------
 
 function makePageForEpisodes(episodeList) {
   container.innerHTML = "";
-  makeSelector();
   makeShowSelector();
-  displayNum.innerText = ` Displaying ${episodeList.length} / ${allEpisodes.length} episodes`;
+  makeEpisodeSelector();
+  displayNum.innerText = ` Displaying ${episodeList.length} episodes`;
 
   episodeList.forEach(function (episode, index) {
     const episodeCard = document.createElement("div");
@@ -131,12 +133,12 @@ function searchForInput(event) {
     }
   });
   let filteredList = newList.filter((item) => item.style.display === "");
-  displayNum.innerText = ` Displaying ${filteredList.length} / ${allEpisodes.length} episodes`;
+  displayNum.innerText = ` Displaying ${filteredList.length} episodes`;
 }
 
 //---------Create Episode Select Options--------------
 
-function makeSelector() {
+function makeEpisodeSelector() {
   allEpisodes.forEach((episode) => {
     const option = `<option>S${episode.season
       .toString()
