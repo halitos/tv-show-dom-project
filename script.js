@@ -9,7 +9,6 @@ const defaultShow = "https://api.tvmaze.com/shows/66/episodes";
 const container = document.createElement("div");
 container.id = "cardContainer";
 const allShows = getAllShows();
-let allEpisodes;
 let selectedShow;
 
 //-------sort shows in alphabetical order------------
@@ -25,16 +24,18 @@ allShows.sort((a, b) => {
   }
   return 0;
 });
-console.log(allShows);
+
+// allShows.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
 
 //-------------setup function with fetch------------
 function setup() {
   fetch(defaultShow)
     .then((response) => response.json())
 
-    .then((response) => (allEpisodes = response))
-
-    .then((response) => makePageForEpisodes(response))
+    .then((response) => {
+      makeEpisodeSelector(response);
+      makePageForEpisodes(response);
+    })
 
     .catch((error) => console.log(error));
 
@@ -57,19 +58,25 @@ const showSelector = document.getElementById("showSelector");
 showSelector.addEventListener("change", function (event) {
   const showId = event.target.value;
   console.log(showId);
-  fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
-    .then((response) => {
-      return response.json();
-    })
-
-    .then((response) => (selectedShow = response))
-
-    .then((response) => makePageForEpisodes(response))
-
-    .catch((error) => console.log(error));
+  if (showId == "none") {
+    setup();
+  } else {
+    fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        makePageForEpisodes(response);
+        makeEpisodeSelector(response);
+      })
+      .catch((error) => console.log(error));
+  }
 });
 
 //---------Make page & populate episode cards---------
+
+var emptyImage =
+  "https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg";
 
 function makePageForEpisodes(episodeList) {
   container.innerHTML = "";
@@ -101,13 +108,16 @@ function makePageForEpisodes(episodeList) {
 
     episodeNum.textContent = formatEpisodeNum(episode.season, episode.number);
     episodeTitle.textContent = episode.name;
-    episodeImg.setAttribute("src", episode.image.medium);
-    episodeSum.textContent = episode.summary.replace(/<[^>]*>/g, " ");
+    episodeImg.setAttribute(
+      "src",
+      episode.image ? episode.image.medium : emptyImage
+    );
+
+    episodeSum.innerHTML = episode.summary;
     episodeCard.id = "card" + index;
     container.appendChild(episodeCard);
     main.appendChild(container);
   });
-  makeEpisodeSelector();
 }
 
 //-----------Episode Num Formatter--------------
@@ -139,8 +149,10 @@ function searchForInput(event) {
 
 //---------Create Episode Select Options--------------
 
-function makeEpisodeSelector() {
-  selectedShow.forEach((episode) => {
+function makeEpisodeSelector(episodeList) {
+  selector.innerHTML = "";
+  selector.innerHTML = '<option value="none">All episodes</option></select>';
+  episodeList.forEach((episode) => {
     const option = `<option>S${episode.season
       .toString()
       .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")} - ${
@@ -148,6 +160,7 @@ function makeEpisodeSelector() {
     } </option>`;
     selector.innerHTML += option;
   });
+  selectedShow = episodeList;
 }
 
 //-------------Episode select event------------------
@@ -168,10 +181,8 @@ function selectFromMenu(event) {
         }` === selector.value
       );
     });
-    container.innerHTML = "";
     makePageForEpisodes(selectedEpisode);
   }
-  selector.value = "";
 }
 
 window.onload = setup;
