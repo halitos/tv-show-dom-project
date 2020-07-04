@@ -29,16 +29,7 @@ allShows.sort((a, b) => {
 
 //-------------setup function with fetch------------
 function setup() {
-  fetch(defaultShow)
-    .then((response) => response.json())
-
-    .then((response) => {
-      makeEpisodeSelector(response);
-      makePageForEpisodes(response);
-    })
-
-    .catch((error) => console.log(error));
-
+  makePageForShows(allShows);
   makeShowSelector();
 }
 
@@ -51,13 +42,12 @@ function makeShowSelector() {
   });
 }
 
-//-------------Fetch and display selected show------------------
+//-------------Fetch and display selected show's episodes------------------
 
 const showSelector = document.getElementById("showSelector");
 
 showSelector.addEventListener("change", function (event) {
   const showId = event.target.value;
-  console.log(showId);
   if (showId == "none") {
     setup();
   } else {
@@ -73,10 +63,51 @@ showSelector.addEventListener("change", function (event) {
   }
 });
 
-//---------Make page & populate episode cards---------
+//---------Make page & populate shows/episodes---------
 
 var emptyImage =
   "https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg";
+
+function makePageForShows(showList) {
+  container.innerHTML = "";
+  displayNum.innerText = ` Displaying ${showList.length} shows`;
+
+  showList.forEach(function (show, index) {
+    const showCard = document.createElement("div");
+    showCard.className = "card";
+
+    const cardHead = document.createElement("div");
+    cardHead.id = "cardHeader";
+    showCard.appendChild(cardHead);
+
+    const showTitle = document.createElement("h3");
+    showTitle.id = "name";
+    cardHead.appendChild(showTitle);
+
+    const showImg = document.createElement("img");
+    showCard.appendChild(showImg);
+
+    const showSum = document.createElement("p");
+    showSum.id = "summary";
+    showSum.innerHTML = `<h4>Summary</h4>${show.summary}`;
+    showCard.appendChild(showSum);
+
+    const showExtraInfo = document.createElement("div");
+    showExtraInfo.className = "extraInfoBox";
+    showExtraInfo.innerHTML = `<p><strong> Genres:</strong> ${show.genres}</p>
+    <p><strong>Status:</strong> ${show.status}</p>
+    <p><strong>Rating:</strong> ${show.rating.average}</p>
+    <p><strong>Runtime:</strong> ${show.runtime}</p>`;
+    showCard.appendChild(showExtraInfo);
+
+    showTitle.textContent = show.name;
+    showImg.setAttribute("src", show.image ? show.image.medium : emptyImage);
+
+    showCard.id = "card" + index;
+    container.appendChild(showCard);
+    main.appendChild(container);
+  });
+}
 
 function makePageForEpisodes(episodeList) {
   container.innerHTML = "";
@@ -144,7 +175,7 @@ function searchForInput(event) {
     }
   });
   let filteredList = newList.filter((item) => item.style.display === "");
-  displayNum.innerText = ` Displaying ${filteredList.length} episodes`;
+  displayNum.innerText = ` Displaying ${filteredList.length} items`;
 }
 
 //---------Create Episode Select Options--------------
