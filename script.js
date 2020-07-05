@@ -64,26 +64,26 @@ showSelector.addEventListener("change", function (event) {
 });
 
 //---------select show by click--------------
+let showClickLinks;
 
-// showTitle.addEventListener("click", clickShow);
-
-// function clickShow() {
-//   episodeSelector.innerHTML = "";
-//   let showId = showTitle.innerText;
-//   fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
-//     .then((response) => {
-//       return response.json();
-//     })
-//     .then((response) => {
-//       makePageForEpisodes(response);
-//       makeEpisodeSelector(response);
-//     })
-//     .catch((error) => console.log(error));
-// }
+function clickShow() {
+  episodeSelector.innerHTML = "";
+  let showId = event.target.id;
+  fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((response) => {
+      makePageForEpisodes(response);
+      makeEpisodeSelector(response);
+    })
+    .catch((error) => console.log(error));
+  episodeSelector.value = showId;
+}
 
 //---------Make page & populate shows/episodes---------
 
-var emptyImage =
+const emptyImage =
   "https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg";
 
 function makePageForShows(showList) {
@@ -102,7 +102,12 @@ function makePageForShows(showList) {
     showCard.appendChild(cardHead);
 
     showTitle = document.createElement("h3");
-    showTitle.id = "name";
+    const showLink = document.createElement("a");
+    showLink.id = show.id;
+    showLink.href = "#";
+    showLink.className = "show-link";
+    showTitle.appendChild(showLink);
+
     cardHead.appendChild(showTitle);
 
     const showImg = document.createElement("img");
@@ -121,13 +126,15 @@ function makePageForShows(showList) {
     showSum.innerHTML = `<h4>Summary</h4>${show.summary}`;
     showCard.appendChild(showSum);
 
-    showTitle.textContent = show.name;
+    showLink.textContent = show.name;
     showImg.setAttribute("src", show.image ? show.image.medium : emptyImage);
 
     showCard.id = "card" + index;
     container.appendChild(showCard);
     main.appendChild(container);
   });
+  showClickLinks = document.querySelectorAll(".show-link");
+  showClickLinks.forEach((link) => link.addEventListener("click", clickShow));
 }
 
 function makePageForEpisodes(episodeList) {

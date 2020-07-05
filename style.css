@@ -39,9 +39,9 @@ header {
   margin-bottom: 5px;
 }
 
-/* #name {
-  cursor: pointer;
-} */
+h3 a {
+  text-decoration: none;
+}
 
 img {
   width: 100%;
