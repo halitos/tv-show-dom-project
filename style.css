@@ -36,9 +36,12 @@ header {
   justify-content: space-evenly;
   background-color: #d7ddde;
   border: solid gray;
-
   margin-bottom: 5px;
 }
+
+/* #name {
+  cursor: pointer;
+} */
 
 img {
   width: 100%;
@@ -46,9 +49,12 @@ img {
 
 #searchEpisodes {
   margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
 }
 
-@media (min-width: 780px) {
+@media (min-width: 680px) {
   #cardContainer {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -58,6 +64,17 @@ img {
 }
 @media (min-width: 980px) {
   #cardContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 680px) {
+  #searchEpisodes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 980px) {
+  #searchEpisodes {
     grid-template-columns: repeat(3, 1fr);
   }
 }

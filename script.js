@@ -1,10 +1,9 @@
 //---------------global variables-----------------
 
 const main = document.getElementById("root");
-const selector = document.getElementById("episode-selector");
+const episodeSelector = document.getElementById("episode-selector");
 const searchBox = document.querySelector(".search-episodes");
 const displayNum = document.getElementById("numOfDisplay");
-const defaultShow = "https://api.tvmaze.com/shows/66/episodes";
 
 const container = document.createElement("div");
 container.id = "cardContainer";
@@ -47,6 +46,7 @@ function makeShowSelector() {
 const showSelector = document.getElementById("showSelector");
 
 showSelector.addEventListener("change", function (event) {
+  episodeSelector.innerHTML = "";
   const showId = event.target.value;
   if (showId == "none") {
     setup();
@@ -63,6 +63,24 @@ showSelector.addEventListener("change", function (event) {
   }
 });
 
+//---------select show by click--------------
+
+// showTitle.addEventListener("click", clickShow);
+
+// function clickShow() {
+//   episodeSelector.innerHTML = "";
+//   let showId = showTitle.innerText;
+//   fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+//     .then((response) => {
+//       return response.json();
+//     })
+//     .then((response) => {
+//       makePageForEpisodes(response);
+//       makeEpisodeSelector(response);
+//     })
+//     .catch((error) => console.log(error));
+// }
+
 //---------Make page & populate shows/episodes---------
 
 var emptyImage =
@@ -70,7 +88,10 @@ var emptyImage =
 
 function makePageForShows(showList) {
   container.innerHTML = "";
+  episodeSelector.style.display = "none";
   displayNum.innerText = ` Displaying ${showList.length} shows`;
+
+  let showTitle;
 
   showList.forEach(function (show, index) {
     const showCard = document.createElement("div");
@@ -80,17 +101,12 @@ function makePageForShows(showList) {
     cardHead.id = "cardHeader";
     showCard.appendChild(cardHead);
 
-    const showTitle = document.createElement("h3");
+    showTitle = document.createElement("h3");
     showTitle.id = "name";
     cardHead.appendChild(showTitle);
 
     const showImg = document.createElement("img");
     showCard.appendChild(showImg);
-
-    const showSum = document.createElement("p");
-    showSum.id = "summary";
-    showSum.innerHTML = `<h4>Summary</h4>${show.summary}`;
-    showCard.appendChild(showSum);
 
     const showExtraInfo = document.createElement("div");
     showExtraInfo.className = "extraInfoBox";
@@ -99,6 +115,11 @@ function makePageForShows(showList) {
     <p><strong>Rating:</strong> ${show.rating.average}</p>
     <p><strong>Runtime:</strong> ${show.runtime}</p>`;
     showCard.appendChild(showExtraInfo);
+
+    const showSum = document.createElement("p");
+    showSum.id = "summary";
+    showSum.innerHTML = `<h4>Summary</h4>${show.summary}`;
+    showCard.appendChild(showSum);
 
     showTitle.textContent = show.name;
     showImg.setAttribute("src", show.image ? show.image.medium : emptyImage);
@@ -181,22 +202,24 @@ function searchForInput(event) {
 //---------Create Episode Select Options--------------
 
 function makeEpisodeSelector(episodeList) {
-  selector.innerHTML = "";
-  selector.innerHTML = '<option value="none">All episodes</option></select>';
+  episodeSelector.innerHTML = "";
+  episodeSelector.style.display = "";
+  episodeSelector.innerHTML =
+    '<option value="none">All episodes</option></select>';
   episodeList.forEach((episode) => {
     const option = `<option>S${episode.season
       .toString()
       .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")} - ${
       episode.name
     } </option>`;
-    selector.innerHTML += option;
+    episodeSelector.innerHTML += option;
   });
   selectedShow = episodeList;
 }
 
 //-------------Episode select event------------------
 
-selector.addEventListener("change", selectFromMenu);
+episodeSelector.addEventListener("change", selectFromMenu);
 
 function selectFromMenu(event) {
   if (event.target.value === "none") {
@@ -209,7 +232,7 @@ function selectFromMenu(event) {
           .toString()
           .padStart(2, "0")}E${episode.number.toString().padStart(2, "0")} - ${
           episode.name
-        }` === selector.value
+        }` === episodeSelector.value
       );
     });
     makePageForEpisodes(selectedEpisode);
