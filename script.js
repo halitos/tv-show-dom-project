@@ -67,7 +67,6 @@ showSelector.addEventListener("change", function (event) {
 
 function clickShow() {
   episodeSelector.innerHTML = "";
-  searchBox.value = "";
   let showId = event.target.id;
   fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
     .then((response) => {
@@ -138,6 +137,7 @@ function makePageForShows(showList) {
 
 function makePageForEpisodes(episodeList) {
   container.innerHTML = "";
+  searchBox.value = "";
   displayNum.innerText = ` Displaying ${episodeList.length} episodes`;
 
   episodeList.forEach(function (episode, index) {
@@ -227,9 +227,9 @@ function makeEpisodeSelector(episodeList) {
 episodeSelector.addEventListener("change", selectFromMenu);
 
 function selectFromMenu(event) {
-  searchBox.value = "";
   if (event.target.value === "none") {
     container.innerHTML = "";
+    searchBox.value = "";
     makePageForEpisodes(selectedShow);
   } else {
     const selectedEpisode = selectedShow.filter((episode) => {
@@ -241,6 +241,7 @@ function selectFromMenu(event) {
         }` === episodeSelector.value
       );
     });
+    searchBox.value = "";
     makePageForEpisodes(selectedEpisode);
   }
 }
