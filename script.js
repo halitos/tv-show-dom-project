@@ -35,8 +35,8 @@ function setup() {
 //------------create show select function------------
 
 function makeShowSelector() {
-  allShows.forEach((episode) => {
-    const optionValue = `<option value="${episode.id}">${episode.name}</option>`;
+  allShows.forEach((show) => {
+    const optionValue = `<option value="${show.id}">${show.name}</option>`;
     showSelector.innerHTML += optionValue;
   });
 }
@@ -67,6 +67,7 @@ showSelector.addEventListener("change", function (event) {
 
 function clickShow() {
   episodeSelector.innerHTML = "";
+  searchBox.value = "";
   let showId = event.target.id;
   fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
     .then((response) => {
@@ -97,7 +98,7 @@ function makePageForShows(showList) {
     showCard.className = "card";
 
     const cardHead = document.createElement("div");
-    cardHead.id = "cardHeader";
+    cardHead.className = "cardHeader";
     showCard.appendChild(cardHead);
 
     showTitle = document.createElement("h3");
@@ -128,7 +129,6 @@ function makePageForShows(showList) {
     showLink.textContent = show.name;
     showImg.setAttribute("src", show.image ? show.image.medium : emptyImage);
 
-    showCard.id = "card" + index;
     container.appendChild(showCard);
     main.appendChild(container);
   });
@@ -145,7 +145,7 @@ function makePageForEpisodes(episodeList) {
     episodeCard.className = "card";
 
     const cardHead = document.createElement("div");
-    cardHead.id = "cardHeader";
+    cardHead.className = "cardHeader";
     episodeCard.appendChild(cardHead);
 
     const episodeTitle = document.createElement("h3");
@@ -172,7 +172,6 @@ function makePageForEpisodes(episodeList) {
     );
 
     episodeSum.innerHTML = episode.summary;
-    episodeCard.id = "card" + index;
     container.appendChild(episodeCard);
     main.appendChild(container);
   });
@@ -208,6 +207,7 @@ function searchForInput(event) {
 //---------Create Episode Select Options--------------
 
 function makeEpisodeSelector(episodeList) {
+  selectedShow = episodeList;
   episodeSelector.innerHTML = "";
   episodeSelector.style.display = "";
   episodeSelector.innerHTML =
@@ -220,7 +220,6 @@ function makeEpisodeSelector(episodeList) {
     } </option>`;
     episodeSelector.innerHTML += option;
   });
-  selectedShow = episodeList;
 }
 
 //-------------Episode select event------------------
@@ -228,6 +227,7 @@ function makeEpisodeSelector(episodeList) {
 episodeSelector.addEventListener("change", selectFromMenu);
 
 function selectFromMenu(event) {
+  searchBox.value = "";
   if (event.target.value === "none") {
     container.innerHTML = "";
     makePageForEpisodes(selectedShow);
