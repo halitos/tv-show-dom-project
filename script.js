@@ -4,11 +4,11 @@ const main = document.getElementById("root");
 const episodeSelector = document.getElementById("episode-selector");
 const searchBox = document.querySelector(".search-episodes");
 const displayNum = document.getElementById("numOfDisplay");
-
 const container = document.createElement("div");
 container.id = "cardContainer";
 const allShows = getAllShows();
 let selectedShow;
+let showClickLinks;
 
 //-------sort shows in alphabetical order------------
 
@@ -64,7 +64,6 @@ showSelector.addEventListener("change", function (event) {
 });
 
 //---------select show by click--------------
-let showClickLinks;
 
 function clickShow() {
   episodeSelector.innerHTML = "";
@@ -78,7 +77,7 @@ function clickShow() {
       makeEpisodeSelector(response);
     })
     .catch((error) => console.log(error));
-  episodeSelector.value = showId;
+  showSelector.value = showId;
 }
 
 //---------Make page & populate shows/episodes---------
