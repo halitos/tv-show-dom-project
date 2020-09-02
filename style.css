@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&family=Share+Tech+Mono&display=swap");
+
 body {
   background-color: rgb(46, 44, 44);
   font-family: Arial, Helvetica, sans-serif;
@@ -11,13 +13,18 @@ body {
 }
 
 header {
+  background: linear-gradient(
+    to right,
+    rgb(204, 224, 224) 0%,
+    rgb(36, 39, 43) 100%
+  );
   text-align: center;
   background-color: #eaf2f5;
   margin-bottom: 20px;
   border: 2px solid #aaa;
   border-radius: 10px;
-  color: #494949;
-  font-family: "Ultra", sans-serif;
+  /* font-family: "Ultra", sans-serif; */
+  font-family: "Share Tech Mono", monospace;
   font-size: 24px;
   line-height: 36px;
   text-transform: uppercase;
@@ -37,13 +44,18 @@ header {
 .cardHeader {
   display: flex;
   justify-content: space-evenly;
-  background-color: #d7ddde;
+  background-color: #4e5353;
   border: solid gray;
   margin-bottom: 5px;
 }
 
 h3 a {
-  color: #494949;
+  text-decoration: none;
+  color: rgb(62, 214, 214);
+}
+
+h3 a:hover {
+  color: rgba(249, 105, 14, 1);
 }
 
 img {
