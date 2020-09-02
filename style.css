@@ -1,7 +1,7 @@
 body {
   background-color: rgb(46, 44, 44);
   font-family: Arial, Helvetica, sans-serif;
-  margin: 10px 40px;
+  margin: 10px 10px;
 }
 
 #cardContainer {
@@ -14,7 +14,7 @@ header {
   text-align: center;
   background-color: #eaf2f5;
   margin-bottom: 20px;
-  border: solid gray;
+  border: 5px solid #aaa;
   border-radius: 10px;
   color: #494949;
   font-family: "Ultra", sans-serif;
@@ -27,6 +27,7 @@ header {
 .card {
   padding: 10px;
   background-color: #eaf2f5;
+  border: 2px solid #aaa;
   border-radius: 5px;
 }
 .card p {
@@ -74,7 +75,7 @@ img {
   max-width: 100%; /* useful when width is set to anything other than 100% */
   box-sizing: border-box;
   margin: 0;
-  border: 1px solid #aaa;
+  border: 2px solid #aaa;
   box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
   border-radius: 0.5em;
   -moz-appearance: none;
@@ -92,9 +93,12 @@ img {
   #cardContainer {
     grid-template-columns: repeat(3, 1fr);
   }
-  /* body {
-    margin: 10px 80px;
-  } */
+}
+
+@media (min-width: 1100px) {
+  body {
+    margin: 10px 50px;
+  }
 }
 
 @media (min-width: 680px) {
