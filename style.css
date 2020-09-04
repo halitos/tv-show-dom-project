@@ -49,6 +49,15 @@ header {
   margin-bottom: 5px;
 }
 
+.episodeCardHeader {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #4e5353;
+  border: solid gray;
+  margin-bottom: 5px;
+  color: azure;
+}
+
 h3 a {
   text-decoration: none;
   color: rgb(62, 214, 214);
@@ -93,7 +102,7 @@ img {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  /* background-color: rgb(233, 231, 231); */
+  background-color: rgb(233, 231, 231);
 }
 
 @media (min-width: 680px) {

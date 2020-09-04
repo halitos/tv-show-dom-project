@@ -145,7 +145,7 @@ function makePageForEpisodes(episodeList) {
     episodeCard.className = "card";
 
     const cardHead = document.createElement("div");
-    cardHead.className = "cardHeader";
+    cardHead.className = "episodeCardHeader";
     episodeCard.appendChild(cardHead);
 
     const episodeTitle = document.createElement("h3");
