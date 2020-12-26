@@ -65,7 +65,7 @@ showSelector.addEventListener("change", function (event) {
 
 //---------select show by click--------------
 
-function clickShow() {
+function clickShow(event) {
   episodeSelector.innerHTML = "";
   let showId = event.target.id;
   fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
@@ -92,7 +92,7 @@ function makePageForShows(showList) {
 
   let showTitle;
 
-  showList.forEach(function (show, index) {
+  showList.forEach(function (show) {
     const showCard = document.createElement("div");
     showCard.className = "card";
 
@@ -105,6 +105,7 @@ function makePageForShows(showList) {
     showLink.id = show.id;
     showLink.href = "#";
     showLink.className = "show-link";
+    showLink.textContent = show.name;
     showTitle.appendChild(showLink);
 
     cardHead.appendChild(showTitle);
@@ -125,7 +126,6 @@ function makePageForShows(showList) {
     showSum.innerHTML = `<h4>Summary</h4>${show.summary}`;
     showCard.appendChild(showSum);
 
-    showLink.textContent = show.name;
     showImg.setAttribute("src", show.image ? show.image.medium : emptyImage);
 
     container.appendChild(showCard);
